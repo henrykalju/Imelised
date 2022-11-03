@@ -1,0 +1,13 @@
+Esileht:
+mis meil lehel on
+mängud on ägedad
+
+
+Teine leht:
+mingi mäng
+
+Kolmas leht:
+teine mäng, js-ga
+
+neljas leht:
+mängude ajalugu
