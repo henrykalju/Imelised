@@ -1,3 +1,4 @@
+//Kanvase init
 canvas = document.getElementById("game_canvas")
 canvas.width = 600
 canvas.height = 800
@@ -5,15 +6,19 @@ canvas.height = 800
 
 ctx = canvas.getContext("2d")
 
+//Muutujate init
 fps = 60
 mspf = 1000/fps
 
 playing = false
 
+ctx.textAlign = "center"
+
 score = 0
 pipes = []
 
-class bird {
+//Mängija klass
+class square {
   constructor (x, y, w, h, color) {
     this.x = x
     this.y = y
@@ -24,6 +29,7 @@ class bird {
     this.power = 10
     this.gravity = 0.5
     this.update = function(){
+      //Kutsu iga frame ja uuenda mängija pos ja kiirus
       this.speed += this.gravity
       this.y += this.speed
       this.draw()
@@ -32,13 +38,16 @@ class bird {
       }
     }
     this.draw = function(){
+      //Joonista mängija
       ctx.fillStyle = this.color
       ctx.fillRect(this.x, this.y, this.w, this.h)
     }
     this.jump = function(){
+      //Hüppa
       this.speed = -this.power
     }
     this.reset = function(){
+      //Taasta mängija algpositsioon
       this.x = x
       this.y = y
       this.speed = 0
@@ -46,6 +55,7 @@ class bird {
   }
 }
 
+//Posti klass
 class pipe {
   constructor (x, y, w, h, color) {
     this.x = x
@@ -56,11 +66,13 @@ class pipe {
     this.speed = 5
     this.point = false
     this.respawn = function(i){
+      //Vii post paremale serva ja muuda augu kõrgus
       this.x = canvas.width+Math.floor(i*canvas.width/pipes.length)
       this.y = Math.floor(Math.random()*canvas.height*0.5+0.25*canvas.height-this.h/2)
       this.point = false
     }
     this.update = function(){
+      //Uuenda posti pos ja kontrolli kokkupuudet mängijaga
       this.x -= this.speed
       if (this.x < -this.w){
         this.respawn(0)
@@ -78,6 +90,7 @@ class pipe {
       }
     }
     this.draw = function(){
+      //Joonista post
       ctx.fillStyle = this.color
       ctx.fillRect(this.x, 0, this.w, this.y)
       ctx.fillRect(this.x, this.y+this.h, this.w, canvas.height-this.y-this.h)
@@ -85,38 +98,41 @@ class pipe {
   }
 }
 
-player = new bird(200, 400, 20, 20, "black")
+//Väärtusta mängija ja postid
+player = new square(200, 400, 20, 20, "black")
 
 pipes.push(new pipe(canvas.width, canvas.height/2, 30, 125, "green"))
 pipes.push(new pipe(canvas.width+400, canvas.height/2, 30, 125, "green"))
 //pipes.push(new pipe(canvas.width+400, canvas.height/2, 20, 100, "green"))
 //console.log(pipes)
 
-
+//Lisa klahvi vajutuse kuulaja ja update kutsuja
 window.addEventListener("keydown", keyDownHandler)
 interval = setInterval(update, mspf)
 
-ctx.textAlign = "center"
-
+//Peamine funktsioon, mida kutsutakse 60 korda sekundis
 function update(){
+  //ekraan tühjaks
   ctx.clearRect(0, 0, canvas.width, canvas.height)
  
+  //Uuenda ja joonista postid ja mängija
   pipesFunc((element, i) => {
     if (playing){
       element.update()
-    }
-    element.draw()      
+    }else{element.draw()}
   })
   player.draw()
 
-  
+  //Tekst ekraanile
   ctx.fillStyle = "black"
   ctx.font = "60px Comic Sans MS"
   ctx.fillText(score.toString(), 20*score.toString().length+10, 60)
 
+  //Mängu ja pausi funktsionaalsus
   if (playing){
     player.update()
   }else{
+    //Taust ja tekst ekraanile
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)"
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = "rgb(255, 100, 200)"
@@ -129,18 +145,22 @@ function update(){
   }
 }
 
+//Alusta mäng
 function startGame(){
   score = -1
   addPoint()
   playing = true
 }
 
+//Peata mäng
 function stopGame(){
   playing = false
 }
 
+//Nupuvajutuse käsitleja
 function keyDownHandler(event){
   switch (event.keyCode){
+    //Tühik
     case 32:
       if (!playing){
         startGame()
@@ -151,11 +171,13 @@ function keyDownHandler(event){
   }
 }
 
+//Lisa punkt
 function addPoint(){
   score += 1
   //scoreElement.innerHTML = score
 }
 
+//Kutsu funktsiooni igal postil
 function pipesFunc(func) {
   for (let i = 0; i < pipes.length; i++) {
     const element = pipes[i];
