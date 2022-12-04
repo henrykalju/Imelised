@@ -13,14 +13,12 @@
 .t1 {
   font-size: 60px;
   font-weight: 500;
-  font-family: 'Proxima Nova', sans-serif;
   margin: auto;
 }
 
 .t3 {
   font-size: 40px;
   font-weight: 500;
-  font-family: 'Proxima Nova', sans-serif;
   margin-top: 100px;
   /*margin: auto;*/
 }
@@ -29,7 +27,6 @@
 .text {
   font-size: 30px;
   font-weight: 300;
-  font-family: 'Proxima Nova', sans-serif;
   text-align: justify;
   --padding-right: 30px;
 }
@@ -53,7 +50,6 @@
 .link {
   font-size: 20px;
   font-weight: 300;
-  font-family: 'Proxima Nova', sans-serif;
   text-decoration: none;
   color: rgba(0, 0, 255, 0.5);
   font-style: italic;
