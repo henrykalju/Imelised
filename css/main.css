@@ -60,6 +60,6 @@
 }
 
 .link:after {
-  content: url("./imgs/open-in-new\ \(10\).png");
+  content: url("../imgs/open-in-new\ \(10\).png");
   vertical-align: super;
 }

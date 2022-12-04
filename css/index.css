@@ -10,8 +10,11 @@ body {
 }
 
 .nav {
-  text-align: center;
-  padding: 3em;
+  --text-align: center;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 20px 100px;
   margin-left: 20%;
   margin-right: 20%;
   background-color: rgb(254,192,181);

@@ -1,7 +1,10 @@
+//Selle JS faili koostas Henry Kaljulaid
+
 //Kanvase init
 canvas = document.getElementById("game_canvas")
 canvas.width = 600
 canvas.height = 800
+
 //scoreElement = document.getElementById("score_element")
 
 ctx = canvas.getContext("2d")
@@ -108,6 +111,7 @@ pipes.push(new pipe(canvas.width+400, canvas.height/2, 30, 125, "green"))
 
 //Lisa klahvi vajutuse kuulaja ja update kutsuja
 window.addEventListener("keydown", keyDownHandler)
+canvas.addEventListener("mousedown", mouseDownHandler)
 interval = setInterval(update, mspf)
 
 //Peamine funktsioon, mida kutsutakse 60 korda sekundis
@@ -162,13 +166,26 @@ function keyDownHandler(event){
   switch (event.keyCode){
     //Tühik
     case 32:
-      if (!playing){
-        startGame()
-        pipesFunc((element, i) => {element.respawn(i)})
-        player.reset()
-      }
-      player.jump()
+      jumpButtonPress()
   }
+  //console.log(event.keyCode)
+}
+
+//Hiire vajutuse käsitleja
+function mouseDownHandler(event) {
+  if (event.button == 0){
+    jumpButtonPress()
+  }
+}
+
+//Vajutuse funktsionaalsus
+function jumpButtonPress(){
+  if (!playing){
+    startGame()
+    pipesFunc((element, i) => {element.respawn(i)})
+    player.reset()
+  }
+  player.jump()
 }
 
 //Lisa punkt
